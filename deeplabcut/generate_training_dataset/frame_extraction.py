@@ -410,9 +410,15 @@ def extract_frames(
                     print("Frame selection failed...")
                     return []
 
-                output_path = (
-                    Path(config).parents[0] / "labeled-data" / Path(video).stem
-                )
+                # output_path = (
+                #     Path(config).parents[0] / "labeled-data" / Path(video).stem
+                # )
+                parent = Path(video).parent.name
+                grandparent = Path(video).parent.parent.name
+                stem = Path(video).stem
+                output_dirname = f"{grandparent}_{parent}_{stem}"
+                output_path = Path(config).parents[0] / "labeled-data" / output_dirname
+                print(f"Extracting frames to: {output_path}")
                 output_path.mkdir(parents=True, exist_ok=True)
                 is_valid = []
                 if opencv:

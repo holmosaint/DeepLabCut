@@ -499,7 +499,14 @@ def parse_video_filenames(videos: List[str]) -> List[str]:
     filenames = []
     filename_to_videos = {}
     for video in videos:
-        _, filename, _ = _robust_path_split(video)
+        if Path(video).suffix.lower() == ".avi":
+            _, filename, _ = _robust_path_split(video)
+        else:
+            filename = Path(video).stem  # Get the filename without extension
+            parent = Path(video).parent.name
+            parent_parent = Path(video).parent.parent.name
+            filename = f'{parent_parent}_{parent}_{filename}'
+            print(f'Using filename: {filename} for parent: {parent} and parent_parent: {parent_parent}')
         videos_with_filename = filename_to_videos.get(filename, [])
         if len(videos_with_filename) == 0:
             filenames.append(filename)
