@@ -713,7 +713,11 @@ def ExtractFramesbasedonPreselection(
     )
 
     videofolder = str(Path(video).parents[0])
-    vname = str(Path(video).stem)
+    parent = Path(video).parent.name
+    grandparent = Path(video).parent.parent.name
+    stem = Path(video).stem
+    vname = f"{grandparent}_{parent}_{stem}"
+    # vname = str(Path(video).stem)
     tmpfolder = os.path.join(cfg["project_path"], "labeled-data", vname)
     if os.path.isdir(tmpfolder):
         print("Frames from video", vname, " already extracted (more will be added)!")
